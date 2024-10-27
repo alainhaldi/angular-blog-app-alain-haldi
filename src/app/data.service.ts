@@ -43,7 +43,11 @@ export class DataService {
   getEntries(): void {
     this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`)  // Convert Json to Typescript
       .pipe(
-        tap(response => console.log('Fetched entries:', response.data)) // Access response.data
+        
+        tap(response => {
+          console.log('Fetched entries:', response.data);
+          console.log(`Received ${response.data.length} objects`);
+        })
       )
       .subscribe({
         next: (response) => {
@@ -52,47 +56,5 @@ export class DataService {
         },
         error: (error) => console.error('Error loading entries:', error)
       });
-  }
-
-
-  // // Add new entry
-  // addEntry(entry: Omit<BlogEntry, 'id'>): void {
-  //   this.http.post<BlogEntry>(`${this.apiUrl}/entries`, entry)
-  //     .subscribe({
-  //       next: (newEntry) => {
-  //         const currentEntries = this.entriesSubject.value;
-  //         this.entriesSubject.next([...currentEntries, newEntry]);
-  //       },
-  //       error: (error) => console.error('Error adding entry:', error)
-  //     });
-  // }
-
-  // // Update existing entry
-  // updateEntry(id: number, entry: Partial<BlogEntry>): void {
-  //   this.http.put<BlogEntry>(`${this.apiUrl}/entries/${id}`, entry)
-  //     .subscribe({
-  //       next: (updatedEntry) => {
-  //         const currentEntries = this.entriesSubject.value;
-  //         const index = currentEntries.findIndex(e => e.id === id);
-  //         if (index !== -1) {
-  //           const updatedEntries = [...currentEntries];
-  //           updatedEntries[index] = updatedEntry;
-  //           this.entriesSubject.next(updatedEntries);
-  //         }
-  //       },
-  //       error: (error) => console.error('Error updating entry:', error)
-  //     });
-  // }
-
-  // // Delete entry
-  // deleteEntry(id: number): void {
-  //   this.http.delete(`${this.apiUrl}/entries/${id}`)
-  //     .subscribe({
-  //       next: () => {
-  //         const currentEntries = this.entriesSubject.value;
-  //         this.entriesSubject.next(currentEntries.filter(e => e.id !== id));
-  //       },
-  //       error: (error) => console.error('Error deleting entry:', error)
-  //     });
-  // }
+  }  
 }

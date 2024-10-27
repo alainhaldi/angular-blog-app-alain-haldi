@@ -12,6 +12,10 @@ export class IconModel {
         return path;
     }
 
+    get state() {
+        return this._isLikedByMe;
+    }
+
     toggleState() {
         this._isLikedByMe = !this._isLikedByMe;
     }

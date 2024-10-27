@@ -25,10 +25,16 @@ export class BlogcardComponent {
       this._icon = new IconModel(this.blogEntry.likedByMe);
     }
   }
+
+  // !! toggle like isnt connected to the backend yet
   toggleLike(){
     if(this._icon && this.blogEntry) {
       this._icon.toggleState();
+      if(this._icon.state) {
       this.blogEntry.likes += 1;
+      } else {
+        this.blogEntry.likes -= 1;
+      }
     }
   }
 }
