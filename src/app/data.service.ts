@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { z } from 'zod';
 
 // Define interfaces for your data
 export interface BlogEntry {
@@ -17,44 +18,60 @@ export interface BlogEntry {
   likes: number;
 }
 
+// Define Zod schema for validation
+const BlogEntrySchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  contentPreview: z.string(),
+  likedByMe: z.boolean(),
+  author: z.string(),
+  comments: z.number(),
+  createdAt: z.string(),
+  headerImageUrl: z.string().url(),
+  likes: z.number(),
+});
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private readonly apiUrl = 'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io';
-  
-  // BehaviorSubject to hold the current state
+  private readonly apiUrl = '/api';
   private entriesSubject = new BehaviorSubject<BlogEntry[]>([]);
-  
-  // Observable that components can subscribe to
-  entries$ = this.entriesSubject.asObservable(); // $ indicates observable
+  entries$ = this.entriesSubject.asObservable();
 
   constructor(private readonly http: HttpClient) {
-    // Load initial data
     this.getEntries();
   }
 
-  // Get current entries without subscribing
   get entries(): BlogEntry[] {
     return this.entriesSubject.value;
   }
 
-  // Load entries from API
   getEntries(): void {
-    this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`)  // Convert Json to Typescript
+    this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`)
       .pipe(
-        
         tap(response => {
           console.log('Fetched entries:', response.data);
           console.log(`Received ${response.data.length} objects`);
+
+          // Compare Inpt with the Zod-Schema
+          const validatedEntries = response.data.map(entry => {
+            const result = BlogEntrySchema.safeParse(entry);
+            if (!result.success) {
+              console.error('Validation error:', result.error);
+              return null;
+            }
+            console.log('Validation successful:', result.data);
+            return result.data;
+          // Filter all Null Objects
+          }).filter((entry): entry is BlogEntry => entry !== null);
+
+          // Update the entries list
+          this.entriesSubject.next(validatedEntries);
         })
       )
       .subscribe({
-        next: (response) => {
-          const entries = response.data; // Extract data
-          this.entriesSubject.next(entries);
-        },
         error: (error) => console.error('Error loading entries:', error)
       });
-  }  
+  }
 }
