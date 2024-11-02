@@ -1,6 +1,6 @@
 // blog-store.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { z } from 'zod';
@@ -36,26 +36,33 @@ const BlogEntrySchema = z.object({
 })
 export class DataService {
   private readonly apiUrl = '/api';
-  private entriesSubject = new BehaviorSubject<BlogEntry[]>([]);
-  entries$ = this.entriesSubject.asObservable();
+  private readonly blogsSubject$ = new BehaviorSubject<BlogEntry[]>([]); // Save data class internly
+  blogs$ = this.blogsSubject$.asObservable(); // makes data accessable for other classes
 
   constructor(private readonly http: HttpClient) {
-    this.getEntries();
+    console.log('Succesfully creating DataService')
+    this.loadBlogs();
   }
 
-  get entries(): BlogEntry[] {
-    return this.entriesSubject.value;
+  get blogs(): BlogEntry[] {
+    return this.blogsSubject$.value;
   }
 
-  getEntries(): void {
-    this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`)
+  loadBlogs(): void {
+    console.log('Starting: loadBlogs')
+
+    // new header
+    const headers = new HttpHeaders().set('X-Auth', 'userId');
+
+    this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`, {headers})
+      // if request successful
       .pipe(
         tap(response => {
-          console.log('Fetched entries:', response.data);
+          console.log('Fetched blogs:', response.data);
           console.log(`Received ${response.data.length} objects`);
 
-          // Compare Inpt with the Zod-Schema
-          const validatedEntries = response.data.map(entry => {
+          // Compare Input with the Zod-Schema
+          const validatedblogs = response.data.map(entry => {
             const result = BlogEntrySchema.safeParse(entry);
             if (!result.success) {
               console.error('Validation error:', result.error);
@@ -66,12 +73,12 @@ export class DataService {
           // Filter all Null Objects
           }).filter((entry): entry is BlogEntry => entry !== null);
 
-          // Update the entries list
-          this.entriesSubject.next(validatedEntries);
+          // Update the blogs list
+          this.blogsSubject$.next(validatedblogs);
         })
       )
       .subscribe({
-        error: (error) => console.error('Error loading entries:', error)
+        error: (error) => console.error('Error loading blogs:', error)
       });
   }
 }
