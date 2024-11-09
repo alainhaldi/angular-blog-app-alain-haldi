@@ -1,3 +1,4 @@
+<div [routerLink]="['/detail', blogEntry!.id]" style="cursor: pointer;">
 <mat-card class="example-card" appearance="outlined">
     <mat-card-header>
       <mat-card-title> {{ blogEntry?.title }}</mat-card-title>
@@ -15,4 +16,5 @@
       <p> {{blogEntry?.likes}}</p>
     </mat-card-actions>
   </mat-card>
+</div>
   
