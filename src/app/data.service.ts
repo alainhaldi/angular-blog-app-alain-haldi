@@ -1,8 +1,9 @@
-// blog-store.service.ts
+// Make http Requests; Define BlogEntry; Validate with ZOD
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { z } from 'zod';
 
 // Define interfaces for your data
@@ -35,7 +36,7 @@ const BlogEntrySchema = z.object({
   providedIn: 'root'
 })
 export class DataService {
-  private readonly apiUrl = '/api';
+  readonly apiUrl = '/api';
   private readonly blogsSubject$ = new BehaviorSubject<BlogEntry[]>([]); // Save data class internly
   blogs$ = this.blogsSubject$.asObservable(); // makes data accessable for other classes
 
@@ -48,6 +49,7 @@ export class DataService {
     return this.blogsSubject$.value;
   }
 
+  // Get All Blogs
   loadBlogs(): void {
     console.log('Starting: loadBlogs')
 
@@ -81,4 +83,43 @@ export class DataService {
         error: (error) => console.error('Error loading blogs:', error)
       });
   }
+
+  // Get Blog with ID
+  // loadBlogByID(blogID: number) {
+  //   console.log('Starting: loadBlogByID')
+
+  //   this.http.get<{ data: BlogEntry}>(`${this.apiUrl}/entries/${blogID}`)
+  //     // if request successful
+  //     .pipe(
+  //       tap(response => {
+  //         console.log('Fetched blog:', response.data);
+  //         console.log(`Received blog: ${response.data.id}`);
+
+  //         // Set current blog
+  //       })
+  //     )
+  // }
+
+  // Methode zum Laden eines Blogs mit ID
+  loadBlogByID(blogID: number): Observable<BlogEntry> {
+    console.log('=> Starting: loadBlogByID')
+    return this.http.get<{ data: BlogEntry }>(`${this.apiUrl}/entries/${blogID}`)
+      .pipe(
+        // Verarbeite die Antwort
+        map(response => {
+          // Überprüfe die Antwort mit dem Zod-Schema
+          const result = BlogEntrySchema.safeParse(response.data);
+          if (!result.success) {
+            console.error('Validation error:', result.error);
+            throw new Error('Invalid blog data');
+          }
+          console.log(`Sucessfully load: ${result.data.id} - ${result.data.author}`);
+          return result.data; // Rückgabe des validierten Blog-Objekts
+        })
+      
+        
+
+      );
+  }
+  
 }

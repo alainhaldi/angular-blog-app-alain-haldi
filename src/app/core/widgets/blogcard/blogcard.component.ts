@@ -2,7 +2,8 @@ import {ChangeDetectionStrategy, Component, Input, SimpleChanges} from '@angular
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { IconModel } from './icon.model';
-import { BlogEntry } from '../data.service';
+import { BlogEntry } from '../../../data.service';
+import { RouterLink } from '@angular/router';
 
 /**
  * @title Card with multiple sections
@@ -12,12 +13,12 @@ import { BlogEntry } from '../data.service';
   templateUrl: './blogcard.component.html',
   styleUrl: './blogcard.component.scss',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogcardComponent {
   @Input() blogEntry: BlogEntry | null = null; // Input property to receive blog data
-  _icon: IconModel = new IconModel(false); // Initialize as null
+  _icon: IconModel = new IconModel(false); 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['blogEntry'] && this.blogEntry) {
