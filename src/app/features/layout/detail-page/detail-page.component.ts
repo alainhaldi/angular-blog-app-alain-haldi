@@ -13,6 +13,18 @@ export class DetailPageComponent implements OnInit{
   blogID: number | undefined;
   currentBlog: BlogEntry | undefined;
 
+  dummyBlog: BlogEntry = {
+            id: 265,
+            title: 'Quarkus: With nothing you are more productive!',
+            likedByMe: false,
+            author: 'alice',
+            headerImageUrl: "https://picsum.photos/id/320/800/200",
+            likes: 1,
+            comments: 0,
+            createdAt: '',
+            contentPreview: 'This is a dummy text'
+  };
+
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService 
