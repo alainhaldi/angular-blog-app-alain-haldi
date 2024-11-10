@@ -12,46 +12,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './detail-page.component.scss'
 })
 export class DetailPageComponent implements OnInit{
-  blogID: number | undefined;
+  blogId!: string;
   blog$!: Observable<BlogEntry>; 
 
-  // dummyBlog: BlogEntry = {
-  //           id: 265,
-  //           title: 'Quarkus: With nothing you are more productive!',
-  //           likedByMe: false,
-  //           author: 'alice',
-  //           headerImageUrl: "https://picsum.photos/id/320/800/200",
-  //           likes: 1,
-  //           comments: 0,
-  //           createdAt: '',
-  //           contentPreview: 'This is a dummy text'
-  // };
-  // blog$: Observable<any> | undefined; // Observable für Blog-Daten
-
   constructor(
-    // private route: ActivatedRoute,
+    private route: ActivatedRoute,
     private dataService: DataService 
   ) {}
 
   ngOnInit(): void {
-    
-    this.blog$ = this.dataService.getBlogById(265);
+    // Get ID from pathurl
+    this.blogId = this.route.snapshot.paramMap.get('id') ?? '265'; // If NULL then default value
+  
+    // get blog
+    this.blog$ = this.dataService.getBlogById(this.blogId);
     console.log(`Recieved: ${this.blog$}`)
-
-    // console.log('~~~~~~~~~~~~~~~')
-    // this.route.paramMap.subscribe(params => {
-    //   this.blogID = Number(params.get('id'));
-    //   // this.currentBlog = this.dataService.loadBlogByID(265);
-    //   const id = +this.route.snapshot.paramMap.get('id')!; // Holt die Blog-ID aus der URL
-    //   this.blog$ = this.dataService.getBlogById(id); 
-    //   console.log(this.blog$)// HTTP-Request an den Service
-    //   // this.loadBlogContent(this.blogId);
-    // });
-  }
-
-  loadBlogContent(id: number): void {
-    // this.currentBlog = this.dataService.
-    // this.blogContent = this.dataService.getBlogById(id); // Beispielhafte Funktion
-    // this.title = this.dataService.get
   }
 }

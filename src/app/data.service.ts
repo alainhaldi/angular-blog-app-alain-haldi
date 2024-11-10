@@ -10,7 +10,8 @@ import { z } from 'zod';
 export interface BlogEntry {
   id: number;
   title: string;
-  contentPreview: string;
+  content?: string;
+  contentPreview?: string;
   likedByMe: boolean;
   author: string;
   comments: number;
@@ -23,12 +24,12 @@ export interface BlogEntry {
 const BlogEntrySchema = z.object({
   id: z.number(),
   title: z.string(),
-  contentPreview: z.string(),
+  // content: z.string(),
   likedByMe: z.boolean(),
   author: z.string(),
   comments: z.number(),
   createdAt: z.string(),
-  headerImageUrl: z.string().url(),
+  headerImageUrl: z.string(),
   likes: z.number(),
 });
 
@@ -51,7 +52,7 @@ export class DataService {
 
   // Get All Blogs
   loadBlogs(): void {
-    console.log('=> STARTING: loadBlogs')
+    console.log('=> STARTING: loadBlogs');
 
     // new header
     const headers = new HttpHeaders().set('X-Auth', 'userId');
@@ -85,7 +86,7 @@ export class DataService {
   }
 
   // Methode zum Abrufen eines Blogs basierend auf der ID
-  getBlogById(id: number): Observable<BlogEntry> {
+  getBlogById(id: string): Observable<BlogEntry> {
     console.log('=> STARTING: getBlogById');
     return this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`);
   }
