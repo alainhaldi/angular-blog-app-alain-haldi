@@ -12,7 +12,6 @@ import { BlogEntry, DataService } from '../../../data.service';
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent implements OnInit {
-  title = 'alains-blog';
 
   _blogs$: Observable<BlogEntry[]> | undefined; // Typ ist Observable
 

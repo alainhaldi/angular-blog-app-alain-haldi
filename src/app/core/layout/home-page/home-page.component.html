@@ -1,4 +1,3 @@
-<h1>{{ title }}</h1> 
 <div *ngIf="_blogs$ | async as blogs">
   <div *ngFor="let blog of blogs">
     <app-blogcard [blogEntry]="blog"></app-blogcard>
