@@ -1,8 +1,9 @@
 
-<div>
-    <p>{{ dummyBlog.title }}</p>
-    <p>{{ dummyBlog.author }}</p>
-    <p>{{ dummyBlog.likes }}</p>
+<div *ngIf="blog$ | async as blog">
+    <p>{{ blog.title }}</p>
+    <p>{{ blog.author }}</p>
+    <p>{{ blog.likes }}</p>
+    <img mat-card-image [src]="blog.headerImageUrl" alt="Photo of Blog">
+    <p>{{ blog.contentPreview }}</p>
 </div>
-<img mat-card-image [src]="dummyBlog.headerImageUrl" alt="Photo of a Shiba Inu">
-<p>{{ dummyBlog.contentPreview }}</p>
+  
