@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogcardComponent } from "../../widgets/blogcard/blogcard.component";
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { BlogEntry, DataService } from '../../../data.service';
+import { BlogEntry, DataService } from '../../../services/data-service/data.service';
 
 @Component({
   selector: 'app-home-page',

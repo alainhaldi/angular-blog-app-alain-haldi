@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogEntry, DataService } from '../../../data.service';
+import { BlogEntry, DataService } from '../../../services/data-service/data.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 

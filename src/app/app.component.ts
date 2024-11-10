@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogEntry, DataService } from './data.service';
+import { BlogEntry, DataService } from './services/data-service/data.service';
 import { Observable } from 'rxjs';
 import { BlogcardComponent } from './core/widgets/blogcard/blogcard.component';
 import { CommonModule } from '@angular/common';
