@@ -10,7 +10,8 @@ import { z } from 'zod';
 export interface BlogEntry {
   id: number;
   title: string;
-  contentPreview: string;
+  content?: string;
+  contentPreview?: string;
   likedByMe: boolean;
   author: string;
   comments: number;
@@ -23,12 +24,12 @@ export interface BlogEntry {
 const BlogEntrySchema = z.object({
   id: z.number(),
   title: z.string(),
-  contentPreview: z.string(),
+  // content: z.string(),
   likedByMe: z.boolean(),
   author: z.string(),
   comments: z.number(),
   createdAt: z.string(),
-  headerImageUrl: z.string().url(),
+  headerImageUrl: z.string(),
   likes: z.number(),
 });
 
@@ -51,7 +52,7 @@ export class DataService {
 
   // Get All Blogs
   loadBlogs(): void {
-    console.log('Starting: loadBlogs')
+    console.log('=> STARTING: loadBlogs');
 
     // new header
     const headers = new HttpHeaders().set('X-Auth', 'userId');
@@ -84,42 +85,10 @@ export class DataService {
       });
   }
 
-  // Get Blog with ID
-  // loadBlogByID(blogID: number) {
-  //   console.log('Starting: loadBlogByID')
-
-  //   this.http.get<{ data: BlogEntry}>(`${this.apiUrl}/entries/${blogID}`)
-  //     // if request successful
-  //     .pipe(
-  //       tap(response => {
-  //         console.log('Fetched blog:', response.data);
-  //         console.log(`Received blog: ${response.data.id}`);
-
-  //         // Set current blog
-  //       })
-  //     )
-  // }
-
-  // Methode zum Laden eines Blogs mit ID
-  loadBlogByID(blogID: number): Observable<BlogEntry> {
-    console.log('=> Starting: loadBlogByID')
-    return this.http.get<{ data: BlogEntry }>(`${this.apiUrl}/entries/${blogID}`)
-      .pipe(
-        // Verarbeite die Antwort
-        map(response => {
-          // Überprüfe die Antwort mit dem Zod-Schema
-          const result = BlogEntrySchema.safeParse(response.data);
-          if (!result.success) {
-            console.error('Validation error:', result.error);
-            throw new Error('Invalid blog data');
-          }
-          console.log(`Sucessfully load: ${result.data.id} - ${result.data.author}`);
-          return result.data; // Rückgabe des validierten Blog-Objekts
-        })
-      
-        
-
-      );
+  // Methode zum Abrufen eines Blogs basierend auf der ID
+  getBlogById(id: string): Observable<BlogEntry> {
+    console.log('=> STARTING: getBlogById');
+    return this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`);
   }
   
 }

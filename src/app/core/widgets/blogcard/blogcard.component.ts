@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, SimpleChanges} from '@angular
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { IconModel } from './icon.model';
-import { BlogEntry } from '../../../data.service';
+import { BlogEntry } from '../../../services/data-service/data.service';
 import { RouterLink } from '@angular/router';
 
 /**

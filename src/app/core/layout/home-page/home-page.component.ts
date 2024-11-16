@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogcardComponent } from "../../widgets/blogcard/blogcard.component";
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { BlogEntry, DataService } from '../../../data.service';
+import { BlogEntry, DataService } from '../../../services/data-service/data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +12,6 @@ import { BlogEntry, DataService } from '../../../data.service';
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent implements OnInit {
-  title = 'alains-blog';
 
   _blogs$: Observable<BlogEntry[]> | undefined; // Typ ist Observable
 
@@ -21,4 +20,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this._blogs$ = this.dataService.blogs$; // Zuweisung des Observables
   }
+
+
 }

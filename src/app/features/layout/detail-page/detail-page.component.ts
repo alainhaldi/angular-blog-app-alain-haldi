@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogEntry, DataService } from '../../../data.service';
+import { BlogEntry, DataService } from '../../../services/data-service/data.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-detail-page',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './detail-page.component.html',
   styleUrl: './detail-page.component.scss'
 })
 export class DetailPageComponent implements OnInit{
-  blogID: number | undefined;
-  currentBlog: BlogEntry | undefined;
+  blogId!: string;
+  blog$!: Observable<BlogEntry>; 
 
   constructor(
     private route: ActivatedRoute,
@@ -19,17 +21,11 @@ export class DetailPageComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.blogID = Number(params.get('id'));
-      // this.currentBlog = this.dataService.loadBlogByID(265);
-
-      // this.loadBlogContent(this.blogId);
-    });
-  }
-
-  loadBlogContent(id: number): void {
-    // this.currentBlog = this.dataService.
-    // this.blogContent = this.dataService.getBlogById(id); // Beispielhafte Funktion
-    // this.title = this.dataService.get
+    // Get ID from pathurl
+    this.blogId = this.route.snapshot.paramMap.get('id') ?? '265'; // If NULL then default value
+  
+    // get blog
+    this.blog$ = this.dataService.getBlogById(this.blogId);
+    console.log(`Recieved: ${this.blog$}`)
   }
 }
