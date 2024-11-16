@@ -17,5 +17,4 @@ import { AppbarComponent } from "./core/widgets/appbar/appbar.component";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'alains-blog';
 }

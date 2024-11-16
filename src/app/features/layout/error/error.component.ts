@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalErrorHandler } from '../../../services/global-error-handler/globalerrorhandler.service';
+import { GlobalErrorHandler } from '../../../globalerrorhandler.service';
 import { ErrorService } from '../../../services/error-service/error.service';
 
 @Component({

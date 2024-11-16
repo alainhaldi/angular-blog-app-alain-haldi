@@ -2,7 +2,7 @@ import { ApplicationConfig, ErrorHandler, provideZoneChangeDetection } from '@an
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { GlobalErrorHandler } from './services/global-error-handler/globalerrorhandler.service';
+import { GlobalErrorHandler } from './globalerrorhandler.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

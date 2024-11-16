@@ -20,4 +20,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this._blogs$ = this.dataService.blogs$; // Zuweisung des Observables
   }
+
+
 }

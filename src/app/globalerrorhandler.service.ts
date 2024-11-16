@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { ErrorService } from '../error-service/error.service';
+import { ErrorService } from './services/error-service/error.service';
 import { Router } from '@angular/router';
 
 
