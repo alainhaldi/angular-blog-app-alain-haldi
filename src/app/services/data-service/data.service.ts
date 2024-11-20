@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { z } from 'zod';
+import { Storage } from '@ionic/storage-angular';
 
 // Define interfaces for your data
 export interface BlogEntry {
@@ -38,6 +39,51 @@ const BlogEntrySchema = z.object({
 })
 export class DataService {
   readonly apiUrl = '/api';
+
+  private storageInitialised = false;
+
+  constructor(private storage: Storage, private readonly http: HttpClient) {
+    console.log('Succesfully creating DataService');
+    this.loadBlogs();
+  };
+
+  async loadBlogs(): Promise<BlogEntry[]> {
+    console.log('=> STARTING: getBlogs');
+
+    // Set the headers
+    const headers = new HttpHeaders().set('X-Auth', 'userId');
+
+    try {
+        // Make the HTTP request and await the response
+        const response = await this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`, { headers }).toPromise();
+        
+        if (!response) return [];
+
+        console.log('Fetched blogs:', response.data);
+        console.log(`Received ${response.data.length} objects`);
+
+        // Validate and filter blogs
+        return response.data.map(entry => {
+            const result = BlogEntrySchema.safeParse(entry);
+            if (!result.success) {
+                console.error('Validation error:', result.error);
+                return null;
+            }
+            console.log('Validation successful:', result.data);
+            return result.data;
+        }).filter((entry): entry is BlogEntry => entry !== null); // Filter invalid entries
+    } catch (error) {
+        console.error('Error loading blogs:', error);
+        return []; // Return an empty array on error
+    }
+}
+
+
+
+
+
+
+
   // private readonly blogsSubject$ = new BehaviorSubject<BlogEntry[]>([]); // Save data class internly
   // blogs$ = this.blogsSubject$.asObservable(); // makes data accessable for other classes
   _blogs = signal<BlogEntry[]>([]); // Signal to hold blogs
@@ -45,10 +91,10 @@ export class DataService {
 
 
 
-  constructor(private readonly http: HttpClient) {
-    console.log('Succesfully creating DataService')
-    this.loadBlogs();
-  }
+  // constructor(private readonly http: HttpClient) {
+  //   console.log('Succesfully creating DataService')
+  //   this.loadBlogs();
+  // }
 
   // get blogs(): BlogEntry[] {
   //   return this.blogsSubject$.value;
@@ -59,40 +105,40 @@ export class DataService {
   }
 
   // Get All Blogs
-  loadBlogs(): void {
-    console.log('=> STARTING: loadBlogs');
+  // loadBlogs(): void {
+  //   console.log('=> STARTING: loadBlogs');
 
-    // new header
-    const headers = new HttpHeaders().set('X-Auth', 'userId');
+  //   // new header
+  //   const headers = new HttpHeaders().set('X-Auth', 'userId');
 
-    this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`, {headers})
-      // if request successful
-      .pipe(
-        tap(response => {
-          console.log('Fetched blogs:', response.data);
-          console.log(`Received ${response.data.length} objects`);
+  //   this.http.get<{ data: BlogEntry[] }>(`${this.apiUrl}/entries`, {headers})
+  //     // if request successful
+  //     .pipe(
+  //       tap(response => {
+  //         console.log('Fetched blogs:', response.data);
+  //         console.log(`Received ${response.data.length} objects`);
 
-          // Compare Input with the Zod-Schema
-          const validatedblogs = response.data.map(entry => {
-            const result = BlogEntrySchema.safeParse(entry);
-            if (!result.success) {
-              console.error('Validation error:', result.error);
-              return null;
-            }
-            console.log('Validation successful:', result.data);
-            return result.data;
-          // Filter all Null Objects
-          }).filter((entry): entry is BlogEntry => entry !== null);
+  //         // Compare Input with the Zod-Schema
+  //         const validatedblogs = response.data.map(entry => {
+  //           const result = BlogEntrySchema.safeParse(entry);
+  //           if (!result.success) {
+  //             console.error('Validation error:', result.error);
+  //             return null;
+  //           }
+  //           console.log('Validation successful:', result.data);
+  //           return result.data;
+  //         // Filter all Null Objects
+  //         }).filter((entry): entry is BlogEntry => entry !== null);
 
-          // Update the blogs list
-          this._blogs.set(validatedblogs);
-          // this.blogsSubject$.next(validatedblogs);
-        })
-      )
-      .subscribe({
-        error: (error) => console.error('Error loading blogs:', error)
-      });
-  }
+  //         // Update the blogs list
+  //         this._blogs.set(validatedblogs);
+  //         // this.blogsSubject$.next(validatedblogs);
+  //       })
+  //     )
+  //     .subscribe({
+  //       error: (error) => console.error('Error loading blogs:', error)
+  //     });
+  // }
 
   // Methode zum Abrufen eines Blogs basierend auf der ID
   // // OBSERVABLE
@@ -101,7 +147,7 @@ export class DataService {
   //   return this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`);
   // }
 
-  // // SIGNALS
+  // SIGNALS
   getBlogById(id: string): void {
     console.log('=> STARTING: getBlogById');
     
