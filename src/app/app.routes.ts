@@ -8,6 +8,10 @@ export const routes: Routes = [
 		path: 'detail/:id', 
 		loadComponent: () => import('./features/layout/detail-page/detail-page.component').then((c) => c.DetailPageComponent),
 	}, // lazy loading & parameter
-	{path: 'error', loadComponent: () => import('./features/layout/error/error.component').then((c) => c.ErrorComponent)} 
+	{path: 'error', loadComponent: () => import('./features/layout/error/error.component').then((c) => c.ErrorComponent)}, 
 	//Weitere Routen hier
+	{
+		path: 'add', 
+		loadComponent: () => import('./features/layout/add-blog-page/add-blog-page.component').then((c) => c.AddBlogPageComponent),
+	}, // lazy loading 
 ];
