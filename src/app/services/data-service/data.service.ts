@@ -1,6 +1,6 @@
 // Make http Requests; Define BlogEntry; Validate with ZOD
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -38,16 +38,24 @@ const BlogEntrySchema = z.object({
 })
 export class DataService {
   readonly apiUrl = '/api';
-  private readonly blogsSubject$ = new BehaviorSubject<BlogEntry[]>([]); // Save data class internly
-  blogs$ = this.blogsSubject$.asObservable(); // makes data accessable for other classes
+  // private readonly blogsSubject$ = new BehaviorSubject<BlogEntry[]>([]); // Save data class internly
+  // blogs$ = this.blogsSubject$.asObservable(); // makes data accessable for other classes
+  _blogs = signal<BlogEntry[]>([]); // Signal to hold blogs
+  _blog = signal<BlogEntry | null>(null); // Signal to hold a single blog entry
+
+
 
   constructor(private readonly http: HttpClient) {
     console.log('Succesfully creating DataService')
     this.loadBlogs();
   }
 
-  get blogs(): BlogEntry[] {
-    return this.blogsSubject$.value;
+  // get blogs(): BlogEntry[] {
+  //   return this.blogsSubject$.value;
+  // }
+  // Getter to access the signal
+  get blogs() {
+    return this._blogs;
   }
 
   // Get All Blogs
@@ -77,7 +85,8 @@ export class DataService {
           }).filter((entry): entry is BlogEntry => entry !== null);
 
           // Update the blogs list
-          this.blogsSubject$.next(validatedblogs);
+          this._blogs.set(validatedblogs);
+          // this.blogsSubject$.next(validatedblogs);
         })
       )
       .subscribe({
@@ -86,9 +95,28 @@ export class DataService {
   }
 
   // Methode zum Abrufen eines Blogs basierend auf der ID
-  getBlogById(id: string): Observable<BlogEntry> {
+  // // OBSERVABLE
+  // getBlogById(id: string): Observable<BlogEntry> {
+  //   console.log('=> STARTING: getBlogById');
+  //   return this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`);
+  // }
+
+  // // SIGNALS
+  getBlogById(id: string): void {
     console.log('=> STARTING: getBlogById');
-    return this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`);
+    
+    const headers = new HttpHeaders().set('X-Auth', 'userId');
+
+    this.http.get<BlogEntry>(`${this.apiUrl}/entries/${id}`, { headers })
+      .pipe(
+        tap((response) => {
+          // Set the fetched data into the signal
+          this._blog.set(response);
+        })
+      )
+      .subscribe({
+        error: (error) => console.error('Error fetching blog by ID:', error),
+      });
   }
   
 }

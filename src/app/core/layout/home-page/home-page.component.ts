@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { BlogcardComponent } from "../../widgets/blogcard/blogcard.component";
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -13,13 +13,18 @@ import { BlogEntry, DataService } from '../../../services/data-service/data.serv
 })
 export class HomePageComponent implements OnInit {
 
-  _blogs$: Observable<BlogEntry[]> | undefined; // Typ ist Observable
+  // STATE MANAGEMENT with OBSERVABLES
+  // _blogs$: Observable<BlogEntry[]> | undefined; // Typ ist Observable
+  // ngOnInit(): void {
+  //   this._blogs$ = this.dataService.blogs$; // Zuweisung des Observables
+  // }
+
+  // STATE MANAGEMENT with SIGNALS
+  blogs: WritableSignal<BlogEntry[]> = signal<BlogEntry[]>([]);
 
   constructor(private readonly dataService: DataService) {}
 
   ngOnInit(): void {
-    this._blogs$ = this.dataService.blogs$; // Zuweisung des Observables
+    this.blogs = this.dataService.blogs; 
   }
-
-
 }

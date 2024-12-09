@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomePageComponent } from "./core/layout/home-page/home-page.component";
-import { AppbarComponent } from "./core/widgets/appbar/appbar.component";
+import { AppbarComponent } from "./core/layout/appbar/appbar.component";
 
 @Component({
   selector: 'app-root',
