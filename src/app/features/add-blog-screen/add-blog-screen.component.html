@@ -1,0 +1,27 @@
+<!-- Link the Template Form to the ts code Form -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>Create new Blog</h2>
+
+  <div>
+    <div>
+      <label for="title">Title</label>
+      <!-- Link the email import (long approche) -->
+      <input id="title" type="text" [formControl]="form.controls.title" />
+    </div>
+
+    <div>
+      <label for="content">Content</label>
+      <!-- Link the password import (short approche) -->
+      <input id="content" type="text" formControlName="content" />
+    </div>
+
+    @if (showButton) {
+    <button class="button">Submit</button>
+    }
+    <button class="reset" (click)="onReset()">Reset</button>
+  </div>
+
+  @if (contentIsValid) {
+  <p>Please enter a valid content. (Min 6 Characters long)</p>
+  }
+</form>
