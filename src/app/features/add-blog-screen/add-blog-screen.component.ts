@@ -49,5 +49,10 @@ export class AddBlogScreenComponent {
     console.log(this.form.controls.title.value);
     console.log(this.form.controls.content.value);
     console.log('Submitted');
+    this.onReset();
+  }
+
+  onReset() {
+    this.form.reset();
   }
 }
