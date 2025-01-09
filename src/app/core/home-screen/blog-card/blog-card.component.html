@@ -1,0 +1,36 @@
+<mat-card class="example-card">
+  <mat-card-header
+    [routerLink]="['/detail', blogEntry().id]"
+    style="cursor: pointer"
+  >
+    <mat-card-title>{{ blogEntry().title }}</mat-card-title>
+  </mat-card-header>
+
+  <img
+    mat-card-image
+    [src]="blogEntry().headerImageUrl"
+    alt="Photo of a Blog"
+    [routerLink]="['/detail', blogEntry().id]"
+    style="cursor: pointer"
+  />
+
+  <mat-card-content
+    [routerLink]="['/detail', blogEntry().id]"
+    style="cursor: pointer"
+  >
+    <p>
+      {{ blogEntry().contentPreview }}
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      viewBox="0 0 16 16"
+    ></svg>
+    <p>{{ blogEntry().likes }}</p>
+  </mat-card-actions>
+</mat-card>

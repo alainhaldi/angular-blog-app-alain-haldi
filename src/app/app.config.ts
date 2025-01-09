@@ -1,16 +1,22 @@
-import { ApplicationConfig, ErrorHandler, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
+
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { GlobalErrorHandler } from './globalerrorhandler.service';
+import { GlobalErrorHandler } from './core/services/global-error-handler-service/globalerrorhandler.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes), provideAnimationsAsync('noop'),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
-    }
-  ]
+    },
+  ],
 };
