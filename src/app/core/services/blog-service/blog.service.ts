@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { z } from 'zod';
 
 export interface BlogEntry {
@@ -110,5 +110,24 @@ export class BlogService {
       .subscribe({
         error: (error) => console.error('Error fetching blog by ID:', error),
       });
+  }
+
+  // Funktioniert aktuell noch nicht ganz
+  addBlog(title: string, content: string) {
+    console.log('=> STARTING: addBlog');
+    let headerImageUrl =
+      'https://imgix.bustle.com/inverse/43/e9/9e/ac/0c64/4d0e/a2bc/dda1d61a31db/on-fire.jpeg?w=672&h=379&fit=crop&crop=faces&dpr=2&blend=151515&blendAlpha=40&blendMode=normal';
+
+    this.http
+      .post(`${this.apiUrl}/entries`, {
+        title: title,
+        content: content,
+        headerImageUrl: headerImageUrl,
+      })
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error('Failed to store selected place.'));
+        })
+      );
   }
 }

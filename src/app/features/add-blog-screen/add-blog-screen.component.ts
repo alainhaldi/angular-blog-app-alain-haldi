@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { BlogService } from '../../core/services/blog-service/blog.service';
 
 @Component({
   selector: 'app-add-blog-screen',
@@ -24,6 +25,8 @@ export class AddBlogScreenComponent {
       validators: [Validators.minLength(6), Validators.required],
     }),
   });
+
+  constructor(private blogService: BlogService) {}
 
   get titleIsValid() {
     return (
@@ -46,9 +49,11 @@ export class AddBlogScreenComponent {
   }
 
   onSubmit() {
-    console.log(this.form.controls.title.value);
-    console.log(this.form.controls.content.value);
     console.log('Submitted');
+    this.blogService.addBlog(
+      this.form.controls.title.value!,
+      this.form.controls.content.value!
+    );
     this.onReset();
   }
 
