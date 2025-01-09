@@ -12,6 +12,13 @@ export const routes: Routes = [
         (mod) => mod.BlogDetailScreenComponent
       ),
   },
+  {
+    path: 'add',
+    loadComponent: () =>
+      import('./features/add-blog-screen/add-blog-screen.component').then(
+        (mod) => mod.AddBlogScreenComponent
+      ),
+  },
 
   // Fallback Route falls falscher Path
   {

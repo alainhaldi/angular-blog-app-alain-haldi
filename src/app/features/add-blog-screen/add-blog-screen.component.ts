@@ -25,7 +25,29 @@ export class AddBlogScreenComponent {
     }),
   });
 
+  get titleIsValid() {
+    return (
+      this.form.controls.title.touched &&
+      this.form.controls.title.dirty &&
+      this.form.controls.title.invalid
+    );
+  }
+
+  get contentIsValid() {
+    return (
+      this.form.controls.content.touched &&
+      this.form.controls.content.dirty &&
+      this.form.controls.content.invalid
+    );
+  }
+
+  get showButton() {
+    return this.form.controls.content.valid && this.form.controls.title.valid;
+  }
+
   onSubmit() {
+    console.log(this.form.controls.title.value);
+    console.log(this.form.controls.content.value);
     console.log('Submitted');
   }
 }
