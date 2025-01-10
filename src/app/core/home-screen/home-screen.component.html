@@ -1,5 +1,11 @@
 @if (isLoading()) {
 <mat-spinner></mat-spinner>
-} @else { @for (blog of blogs(); track blog) {
-<app-blog-card [blogEntry]="blog"></app-blog-card>
-}}
+} @else {
+
+<div class="container">
+  @for (blog of blogs(); track blog) {
+  <app-blog-card [blogEntry]="blog"></app-blog-card>
+
+  }
+</div>
+}

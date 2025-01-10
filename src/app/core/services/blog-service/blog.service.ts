@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
+import { tap } from 'rxjs';
 import { z } from 'zod';
 
 export interface BlogEntry {
@@ -34,11 +34,6 @@ const BlogEntrySchema = z.object({
 })
 export class BlogService {
   readonly apiUrl = '/api';
-  // private blogs = signal([1, 2, 3, 4, 5]);
-  // publicBlogs = this.blogs;
-  // private blog = signal<BlogEntry | null>(null);
-  // publicBlog = this.blog.asReadonly();
-
   private _blogs = signal<BlogEntry[]>([]);
   private _blog = signal<BlogEntry | null>(null);
 
@@ -55,7 +50,7 @@ export class BlogService {
     return this._blogs;
   }
 
-  // Get All Blogs
+  // Load All Blogs
   loadBlogs(): void {
     console.log('=> STARTING: loadBlogs');
 
@@ -69,6 +64,7 @@ export class BlogService {
         tap((response) => {
           console.log('Fetched blogs:', response.data);
           console.log(`Received ${response.data.length} objects`);
+          console.log(`${this.apiUrl}/entries`);
 
           // Compare Input with the Zod-Schema
           const validatedblogs = response.data
@@ -112,7 +108,7 @@ export class BlogService {
       });
   }
 
-  // Funktioniert aktuell noch nicht ganz
+  // Funktioniert aktuell noch nicht ganz wegen Berechtigung (User nicht eingeloggt)
   addBlog(title: string, content: string) {
     console.log('=> STARTING: addBlog');
     const blogData = {

@@ -1,0 +1,90 @@
+/* Formular Container */
+.form-container {
+    max-width: 600px;
+    margin: 40px auto; /* Zentriert das Formular */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Formularüberschrift */
+  h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Form Group Container */
+  div {
+    margin-bottom: 15px;
+  }
+  
+  /* Label Styling */
+  label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  /* Eingabefelder */
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  /* Submit und Reset Buttons */
+  button.button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  button.button:hover {
+    background-color: #0056b3;
+  }
+  
+  button.reset {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  button.reset:hover {
+    background-color: #ddd;
+  }
+  
+  /* Fehlerhinweis */
+  p {
+    color: #ff0000;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }

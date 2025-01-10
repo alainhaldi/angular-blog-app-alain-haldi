@@ -1,10 +1,17 @@
-@if (isNotLoadedYet()) {
-<mat-spinner></mat-spinner>
-} @else {
-<p>{{ blog()!.title }}</p>
-<p>{{ blog()!.author }}</p>
-<p>{{ blog()!.likes }}</p>
-<img mat-card-image [src]="blog()!.headerImageUrl" alt="Photo of Blog" />
-<p>{{ blog()!.content }}</p>
-<p>{{ blog()!.createdAt }}</p>
-}
+<div class="blog-container">
+  @if (isNotLoadedYet()) {
+  <mat-spinner></mat-spinner>
+  } @else {
+  <p class="blog-title">{{ blog()!.title }}</p>
+  <p class="blog-author">Author: {{ blog()!.author }}</p>
+  <p class="blog-likes">Likes: {{ blog()!.likes }}</p>
+  <img
+    class="blog-image"
+    mat-card-image
+    src="https://imgix.bustle.com/inverse/43/e9/9e/ac/0c64/4d0e/a2bc/dda1d61a31db/on-fire.jpeg?w=672&h=379&fit=crop&crop=faces&dpr=2&blend=151515&blendAlpha=40&blendMode=normal"
+    alt="Photo of Blog"
+  />
+  <p class="blog-content">{{ blog()!.content }}</p>
+  <p class="blog-date">Created at: {{ blog()!.createdAt }}</p>
+  }
+</div>
