@@ -9,4 +9,12 @@
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
+
+  .box {
+    flex: 1 1 auto; /* Flexible Breite */
+    min-width: 250px; /* Mindestbreite */
+    padding: 16px;
+   
+    text-align: center;
+  }
   

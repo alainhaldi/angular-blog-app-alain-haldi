@@ -50,10 +50,11 @@ export class AddBlogScreenComponent {
 
   onSubmit() {
     console.log('Submitted');
-    this.blogService.addBlog(
-      this.form.controls.title.value!,
-      this.form.controls.content.value!
-    );
+    // Ausgeklammert weil Autentifiyierung beim BAckend noch nicht klappt
+    // this.blogService.addBlog(
+    //   this.form.controls.title.value!,
+    //   this.form.controls.content.value!
+    // );
     this.onReset();
   }
 

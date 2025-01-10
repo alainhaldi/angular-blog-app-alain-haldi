@@ -1,18 +1,25 @@
-<!-- Link the Template Form to the ts code Form -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2>Create new Blog</h2>
 
   <div>
     <div>
       <label for="title">Title</label>
-      <!-- Link the email import (long approche) -->
-      <input id="title" type="text" [formControl]="form.controls.title" />
+      <input
+        id="title"
+        type="text"
+        [formControl]="form.controls.title"
+        class="form-input"
+      />
     </div>
 
     <div>
       <label for="content">Content</label>
-      <!-- Link the password import (short approche) -->
-      <input id="content" type="text" formControlName="content" />
+      <input
+        id="content"
+        type="text"
+        formControlName="content"
+        class="form-input"
+      />
     </div>
 
     @if (showButton) {
@@ -22,6 +29,8 @@
   </div>
 
   @if (contentIsValid) {
-  <p>Please enter a valid content. (Min 6 Characters long)</p>
+  <p class="error-message">
+    Please enter a valid content. (Min 6 Characters long)
+  </p>
   }
 </form>

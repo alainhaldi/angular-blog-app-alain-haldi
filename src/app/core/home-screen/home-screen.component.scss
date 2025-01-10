@@ -1,0 +1,5 @@
+.container {
+    display: flex; /* Flexbox aktivieren */
+    flex-wrap: wrap; /* Zeilenumbruch erlauben, falls kein Platz mehr ist */
+    gap: 16px; /* Abstand zwischen den Boxen */
+  }
