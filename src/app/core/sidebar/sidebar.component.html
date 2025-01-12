@@ -1,0 +1,80 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar color="primary" class="toolbar">
+      <button mat-icon-button aria-label="Menu icon">
+        <mat-icon class="menuicon">menu</mat-icon>
+      </button>
+      <h1>Blog App</h1>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <div
+        class="menu"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        aria-label="Home button"
+      >
+        <mat-icon style="margin-right: 8px">home</mat-icon>
+        <span>Home</span>
+      </div>
+      <div
+        class="menu"
+        routerLink="add"
+        routerLinkActive="active"
+        aria-label="Add button"
+      >
+        <mat-icon style="margin-right: 8px">add</mat-icon>
+        <span>Add Blog</span>
+      </div>
+      @if (!isLogedIn){
+      <div
+        class="menu"
+        routerLink="login"
+        routerLinkActive="active"
+        aria-label="Login button"
+      >
+        <mat-icon style="margin-right: 8px">login</mat-icon>
+        <span>Login</span>
+      </div>
+      } @if (isLogedIn){
+      <div
+        class="menu"
+        routerLink="login"
+        routerLinkActive="active"
+        aria-label="Logout button"
+      >
+        <mat-icon style="margin-right: 8px">person</mat-icon>
+        <span>Logout</span>
+      </div>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    @if (isHandset$ | async) {
+    <mat-toolbar color="primary" class="content-toolbar">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon" class="menuicon"
+          >menu</mat-icon
+        >
+      </button>
+      <h1 class="mobile-title">Blog App</h1>
+    </mat-toolbar>
+    }
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

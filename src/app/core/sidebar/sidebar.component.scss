@@ -1,0 +1,59 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: #2D4059;
+}
+
+.sidenav .mat-toolbar {
+  background-color: #2D4059;
+
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+div.menu {
+  margin: 5%;
+  padding: 10px 20px; /* Innenabstand für bessere Lesbarkeit */
+  display: flex; 
+  align-items: center; 
+  cursor: pointer;
+  color: white;
+ 
+  border-radius: 12px; /* Abgerundete Ecken */
+  transition: background-color 0.3s, transform 0.2s; /* Animationen */
+}
+
+div.menu:hover {
+  background-color: white; /* Hellere Farbe bei Hover */
+  transform: scale(1.02); /* Leichtes Vergrößern beim Hover */
+  color:#2D4059;
+}
+
+div.menu.active {
+  background-color: white; /* Dunklerer Grünton für aktive Elemente */
+  color:#2D4059;
+}
+
+.toolbar {
+  color: white;
+}
+
+.menuicon {
+  color: white;
+}
+
+.content-toolbar {
+  background-color: #2D4059; 
+}
+
+.mobile-title {
+  color: white;
+}

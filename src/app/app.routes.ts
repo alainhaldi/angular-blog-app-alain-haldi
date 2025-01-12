@@ -1,35 +1,35 @@
 import { CanActivateFn, Router, Routes } from '@angular/router';
 import { HomeScreenComponent } from './core/home-screen/home-screen.component';
-import { inject } from '@angular/core';
-import { AuthService } from './core/services/auth-service/auth.service';
-import { take, map, catchError, of } from 'rxjs';
-import { hasRole } from './core/services/auth-service/jwt';
+// import { inject } from '@angular/core';
+// import { AuthService } from './core/services/auth-service/auth.service';
+// import { take, map, catchError, of } from 'rxjs';
+// import { hasRole } from './core/services/auth-service/jwt';
 
-const isAuthenticatedGuard: CanActivateFn = (route, segments) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+// const isAuthenticatedGuard: CanActivateFn = (route, segments) => {
+//   const authService = inject(AuthService);
+//   const router = inject(Router);
 
-  return authService.getLoginResponse().pipe(
-    take(1),
-    map((loginResponse) => {
-      if (!loginResponse.isAuthenticated) {
-        authService.login();
-        return false;
-      }
+//   return authService.getLoginResponse().pipe(
+//     take(1),
+//     map((loginResponse) => {
+//       if (!loginResponse.isAuthenticated) {
+//         authService.login();
+//         return false;
+//       }
 
-      if (hasRole('', loginResponse.accessToken)) {
-        return true;
-      }
+//       if (hasRole('', loginResponse.accessToken)) {
+//         return true;
+//       }
 
-      return router.parseUrl('');
-    }),
-    catchError((error) => {
-      console.error('Error in isAuthenticatedGuard:', error);
-      authService.login();
-      return of(false);
-    })
-  );
-};
+//       return router.parseUrl('');
+//     }),
+//     catchError((error) => {
+//       console.error('Error in isAuthenticatedGuard:', error);
+//       authService.login();
+//       return of(false);
+//     })
+//   );
+// };
 
 export const routes: Routes = [
   // Default Route
